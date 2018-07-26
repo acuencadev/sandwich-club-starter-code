@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -15,12 +16,18 @@ public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
 
+    private ImageView mImageView;
+    private TextView mOriginTextView;
+    private TextView mAlsoKnownAsTextView;
+    private TextView mDescriptionTextView;
+    private TextView mIngredientsTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        ImageView ingredientsIv = findViewById(R.id.image_iv);
+        initializeViews();
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -43,10 +50,10 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
-        populateUI();
+        populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
-                .into(ingredientsIv);
+                .into(mImageView);
 
         setTitle(sandwich.getMainName());
     }
@@ -56,7 +63,24 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
-    private void populateUI() {
+    private void populateUI(Sandwich sandwich) {
+        mOriginTextView.setText(sandwich.getPlaceOfOrigin());
+        mDescriptionTextView.setText(sandwich.getDescription());
 
+        for (String knownAs : sandwich.getAlsoKnownAs()) {
+            mAlsoKnownAsTextView.append(knownAs + "\n");
+        }
+
+        for (String ingredient : sandwich.getIngredients()) {
+            mIngredientsTextView.append(ingredient + "\n");
+        }
+    }
+
+    private void initializeViews() {
+        mImageView = findViewById(R.id.image_iv);
+        mOriginTextView = findViewById(R.id.origin_tv);
+        mAlsoKnownAsTextView = findViewById(R.id.also_known_tv);
+        mDescriptionTextView = findViewById(R.id.description_tv);
+        mIngredientsTextView = findViewById(R.id.ingredients_tv);
     }
 }
