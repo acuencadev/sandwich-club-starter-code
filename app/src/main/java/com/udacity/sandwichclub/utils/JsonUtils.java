@@ -17,14 +17,14 @@ public class JsonUtils {
         try {
             JSONObject object = new JSONObject(json);
 
-            String mainName = object.getJSONObject("name").getString("mainName");
-            List<String> alsoKnownAs = jsonArrayToList(object.getJSONObject("name").getJSONArray("alsoKnownAs"));
+            String mainName = defaultValueIfNull(object.getJSONObject("name").getString("mainName"));
+            List<String> alsoKnownAs = defaultValueIfNull(jsonArrayToList(object.getJSONObject("name").getJSONArray("alsoKnownAs")));
 
-            String placeOfOrigin = object.getString("placeOfOrigin");
-            String description = object.getString("description");
+            String placeOfOrigin = defaultValueIfNull(object.getString("placeOfOrigin"));
+            String description = defaultValueIfNull(object.getString("description"));
             String image = object.getString("image");
 
-            List<String> ingredients = jsonArrayToList(object.getJSONArray("ingredients"));
+            List<String> ingredients = defaultValueIfNull(jsonArrayToList(object.getJSONArray("ingredients")));
 
             sandwich = new Sandwich(mainName, alsoKnownAs, placeOfOrigin, description, image,
                     ingredients);
@@ -50,5 +50,23 @@ public class JsonUtils {
         }
 
         return list;
+    }
+
+
+    private static String defaultValueIfNull(String input) {
+        if (input == null || input.equals("")) {
+            input = "No data available";
+        }
+
+        return input;
+    }
+
+
+    private static List<String> defaultValueIfNull(List<String> input) {
+        if (input.size() == 0) {
+            input.add("No data available");
+        }
+
+        return input;
     }
 }
