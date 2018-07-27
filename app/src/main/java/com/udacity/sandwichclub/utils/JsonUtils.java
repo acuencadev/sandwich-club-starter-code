@@ -74,7 +74,7 @@ public class JsonUtils {
 
 
     private static List<String> defaultValueIfNull(List<String> input) {
-        if (input.size() == 0) {
+        if (input == null || input.size() == 0) {
             input.add(NO_DATA_AVAILABLE);
         }
 
