@@ -19,6 +19,8 @@ public class JsonUtils {
     public static final String IMAGE = "image";
     public static final String INGREDIENTS = "ingredients";
 
+    public static final String NO_DATA_AVAILABLE = "No data available";
+
 
     public static Sandwich parseSandwichJson(String json) {
         Sandwich sandwich;
@@ -64,7 +66,7 @@ public class JsonUtils {
 
     private static String defaultValueIfNull(String input) {
         if (input == null || input.equals("")) {
-            input = "No data available";
+            input = NO_DATA_AVAILABLE;
         }
 
         return input;
@@ -73,7 +75,7 @@ public class JsonUtils {
 
     private static List<String> defaultValueIfNull(List<String> input) {
         if (input.size() == 0) {
-            input.add("No data available");
+            input.add(NO_DATA_AVAILABLE);
         }
 
         return input;
