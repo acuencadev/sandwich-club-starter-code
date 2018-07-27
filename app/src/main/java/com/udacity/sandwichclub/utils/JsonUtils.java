@@ -11,20 +11,29 @@ import java.util.List;
 
 public class JsonUtils {
 
+    public static final String NAME = "name";
+    public static final String MAIN_NAME = "mainName";
+    public static final String ALSO_KNOWN_AS = "alsoKnownAs";
+    public static final String PLACE_OF_ORIGIN = "placeOfOrigin";
+    public static final String DESCRIPTION = "description";
+    public static final String IMAGE = "image";
+    public static final String INGREDIENTS = "ingredients";
+
+
     public static Sandwich parseSandwichJson(String json) {
         Sandwich sandwich;
 
         try {
             JSONObject object = new JSONObject(json);
 
-            String mainName = defaultValueIfNull(object.getJSONObject("name").getString("mainName"));
-            List<String> alsoKnownAs = defaultValueIfNull(jsonArrayToList(object.getJSONObject("name").getJSONArray("alsoKnownAs")));
+            String mainName = defaultValueIfNull(object.getJSONObject(NAME).getString(MAIN_NAME));
+            List<String> alsoKnownAs = defaultValueIfNull(jsonArrayToList(object.getJSONObject(NAME).getJSONArray(ALSO_KNOWN_AS)));
 
-            String placeOfOrigin = defaultValueIfNull(object.getString("placeOfOrigin"));
-            String description = defaultValueIfNull(object.getString("description"));
-            String image = object.getString("image");
+            String placeOfOrigin = defaultValueIfNull(object.getString(PLACE_OF_ORIGIN));
+            String description = defaultValueIfNull(object.getString(DESCRIPTION));
+            String image = object.getString(IMAGE);
 
-            List<String> ingredients = defaultValueIfNull(jsonArrayToList(object.getJSONArray("ingredients")));
+            List<String> ingredients = defaultValueIfNull(jsonArrayToList(object.getJSONArray(INGREDIENTS)));
 
             sandwich = new Sandwich(mainName, alsoKnownAs, placeOfOrigin, description, image,
                     ingredients);
